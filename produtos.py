@@ -53,38 +53,48 @@ def editar(produto):
         interacoes.printar_nao_encontrou_prod(produto)
     else:
         # pega valores atuais
+        nome = produto
         qntd = produtos[produto]['qntd']
         preco = produtos[produto]['preco']
         desc = produtos[produto]['desc']
 
         while True:
             print('===== VALORES ATUAIS =====')
-            print('1. Quantidade: ' + str(qntd))
-            print('2. Preço: ' + '{:.2f}'.format(preco))
-            print('3. Descrição: ' + desc)
-            print('4. CANCELAR EDIÇÃO')
+            print('1. Nome: ' + produto)
+            print('2. Quantidade: ' + str(qntd))
+            print('3. Preço: ' + '{:.2f}'.format(preco))
+            print('4. Descrição: ' + desc)
+            print('5. CANCELAR EDIÇÃO')
 
             opcao = input('\nO que deseja editar? ')
 
             if opcao == '1':
-                qntd = int(input('Nova quantidade'))
+                nome = input('Novo nome: ')
             elif opcao == '2':
-                preco = float(input('Novo preço: '))
+                qntd = int(input('Nova quantidade'))
             elif opcao == '3':
-                desc = input('Nova descrição: ')
+                preco = float(input('Novo preço: '))
             elif opcao == '4':
+                desc = input('Nova descrição: ')
+            elif opcao == '5':
                 break
 
+            # mudou nome do produto
+            if nome != produto:
+                produtos.pop(produto)
+
             # atualiza cliente
-            produtos[produto] = {
+            produtos[nome] = {
                 'qntd': qntd,
                 'preco' : preco,
-                'desc' : desc }
+                'desc' : desc
+            }
 
             opcao = input('Deseja continuar editando (s/n)? ')
             if opcao == 'n':
                 break
             elif opcao == 's':
+                produto = nome
                 continue
 
 def pesquisar(prod):

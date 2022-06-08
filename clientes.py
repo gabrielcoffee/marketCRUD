@@ -10,14 +10,15 @@ def start():
 
     cpf = input('CPF do cliente: ')
 
-    if opcao == '1':
-        adicionar(cpf)
-    elif opcao == '2':
-        remover(cpf)
-    elif opcao == '3':
-        editar(cpf)
-    elif opcao == '4':
-        pesquisar(cpf)
+    if validar_cpf(cpf):
+        if opcao == '1':
+            adicionar(cpf)
+        elif opcao == '2':
+            remover(cpf)
+        elif opcao == '3':
+            editar(cpf)
+        elif opcao == '4':
+            pesquisar(cpf)
 
 def adicionar(cpf):
         
@@ -93,3 +94,39 @@ def pesquisar(cpf):
         print('\nNome: ' + cliente['nome'])
         print('Número: ' + cliente['num'])
         print('Endereço: ' + cliente['end'])
+
+def validar_cpf(cpf):
+    if len(cpf) != 11:
+        print('\nCPF inválido\n')
+        return False
+
+    digitos = []
+    for d in cpf:
+        digitos.append(int(d))
+
+    # PRIMEIRO DIGITO DE VERIFICAÇÃO
+    soma = (digitos[0] * 10) + (digitos[1] * 9) + (digitos[2] * 8) \
+            + (digitos[3] * 7) + (digitos[4] * 6) + (digitos[5] * 5) \
+            + (digitos[6] * 4) + (digitos[7] * 3) + (digitos[8] * 2)
+
+    resto = soma % 11
+    verif1 = 11 - resto
+    if verif1 >= 10:
+        verif1 = 0
+
+    # SEGUNDO DIGITO DE VERIFICAÇÃO
+    soma = (digitos[0] * 11) + (digitos[1] * 10) + (digitos[2] * 9) \
+            + (digitos[3] * 8) + (digitos[4] * 7) + (digitos[5] * 6) \
+            + (digitos[6] * 5) + (digitos[7] * 4) + (digitos[8] * 3) + digitos[9] * 2
+
+    resto = soma % 11
+    verif2 = 11 - resto
+    if verif2 >= 10:
+        verif2 = 0
+
+    if verif1 == digitos[9] and verif2 == digitos[10]:
+        print('\nCPF Válido\n')
+        return True
+    else:
+        print('\nCPF Inválido')
+        return False
