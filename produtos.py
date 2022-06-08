@@ -1,10 +1,13 @@
-from main import produtos_bd
-from interacoes import printar_opcoes, printar_nao_encontrou_prod
+from database import produtos
+import interacoes
 
 def start():
-    printar_opcoes('produtos')
+    interacoes.printar_opcoes('produtos')
 
-    opcao = input('Opção: ')
+    opcao = interacoes.pegar_opcao()
+    if opcao is None:
+        return
+
     produto = input('Nome do produto: ')
 
     if opcao == '1':
@@ -16,10 +19,9 @@ def start():
     elif opcao == '4':
         pesquisar(produto)
 
-
 def adicionar(produto):
     # se produto ja estiver no dicionario...
-    if produto in produtos_bd.keys():
+    if produto in produtos.keys():
         opcao = input('Esse produto ja esta cadastrado, deseja edita-lo (s/n): ')
         if opcao == 's':
             editar(produto)
@@ -28,45 +30,56 @@ def adicionar(produto):
             return
 
     # se produto não estiver no dicionario...
-    preco = input('Preço do produto: ')
+    qntd = int(input('Quantidade do produto no estoque: '))
+    preco = float(input('Preço do produto: '))
     desc = input('Descrição do produto: ')
 
-    produtos_bd[produto] = {
+    produtos[produto] = {
+        'qntd' : qntd,
         'preco' : preco,
-        'desc'  : desc
+        'desc' : desc
     }
 
+    interacoes.printar_item_adicionado('Produto', produto)
+
 def remover(produto):
-    if produto not in produtos_bd.keys():
-        printar_nao_encontrou_prod(produto)
+    if produto not in produtos.keys():
+        interacoes.printar_nao_encontrou_prod(produto)
     else:
-        produtos_bd.pop(produto)
+        produtos.pop(produto)
 
 def editar(produto):
-    if produto not in produtos_bd.keys():
-        printar_nao_encontrou_prod(produto)
+    if produto not in produtos.keys():
+        interacoes.printar_nao_encontrou_prod(produto)
     else:
         # pega valores atuais
-        preco = produtos_bd[produto]['preco']
-        desc = produtos_bd[produto]['desc']
+        qntd = produtos[produto]['qntd']
+        preco = produtos[produto]['preco']
+        desc = produtos[produto]['desc']
 
         while True:
             print('===== VALORES ATUAIS =====')
-            print('1. Preço: ' + preco)
-            print('2. Descrição: ' + desc)
-            print('3. CANCELAR EDIÇÃO')
+            print('1. Quantidade: ' + qntd)
+            print('2. Preço: ' + preco)
+            print('3. Descrição: ' + desc)
+            print('4. CANCELAR EDIÇÃO')
 
             opcao = input('\nO que deseja editar? ')
 
             if opcao == 1:
-                preco = input('Novo preço: ')
+                qntd = int(input('Nova quantidade'))
             elif opcao == 2:
-                desc = input('Nova descrição: ')
+                preco = float(input('Novo preço: '))
             elif opcao == 3:
+                desc = input('Nova descrição: ')
+            elif opcao == 4:
                 break
 
             # atualiza cliente
-            produtos_bd[produto] = { 'preco' : preco, 'desc' : desc }
+            produtos[produto] = {
+                'qntd': qntd,
+                'preco' : preco,
+                'desc' : desc }
 
             opcao = input('Deseja continuar editando (s/n)? ')
             if opcao == 'n':
@@ -74,22 +87,12 @@ def editar(produto):
             elif opcao == 's':
                 continue
 
-def pesquisar(produto):
-    if produto not in produtos_bd.keys():
-        printar_nao_encontrou_prod(produto)
+def pesquisar(prod):
+    if prod not in produtos.keys():
+        interacoes.printar_nao_encontrou_prod(prod)
     else:
-        produto = produtos_bd[produto]
-        print('\n=== produto ===')
+        produto = produtos[prod]
+        print('\nProduto: ' + produto)
+        print('Quantidade: ' + produto['qntd'])
         print('Preço: ' + produto['preco'])
         print('Descrição: ' + produto['desc'])
-
-def printar_lista():
-    if len(produtos_bd) == 0:
-        print('\nLista de produtos está vazia\n')
-        return
-
-    print('LISTA DE PRODUTOS:\n')
-    for prod in produtos_bd.keys():
-        print()
-        print('preço: ' + produtos_bd[prod]['preco'])
-        print('descrição : ' + produtos_bd[prod]['desc'])

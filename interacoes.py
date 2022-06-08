@@ -24,3 +24,34 @@ def printar_nao_encontrou_cpf(cpf):
 
 def printar_nao_encontrou_prod(prod):
     print('\nProduto ' + prod + ' não consta na lista de produtos...\n')
+
+def printar_dict(dict, lista_tipo):
+    if len(dict) == 0:
+        print('\nLista de ' + lista_tipo + ' está vazia')
+        return
+
+    print('LISTA DE ' + lista_tipo.upper() + ':\n')
+    if lista_tipo == 'clientes':
+        for cpf in dict.keys():
+            print('cliente: ' + dict[cpf]['nome'])
+            print('cpf: ' + cpf)
+            print('número: ' + dict[cpf]['num'])
+            print('endereço: ' + dict[cpf]['end'])
+
+    elif lista_tipo == 'produtos':
+        for prod in dict.keys():
+            print()
+            print('produto: ' + prod)
+            print('preço: ' + dict[prod]['preco'])
+            print('descrição : ' + dict[prod]['desc'])
+
+def pegar_opcao():
+    opcao = input('Opção: ')
+    if opcao == '':
+        print('Nenhuma opção selecionada, voltando ao menu')
+        return None
+    else:
+        return opcao
+
+def printar_item_adicionado(item_tipo, item_nome):
+    print(item_tipo + ' "' + item_nome + '" adicionado!')
