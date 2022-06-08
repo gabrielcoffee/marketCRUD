@@ -20,10 +20,10 @@ def printar_opcoes(opcao_tipo):
     print('4. Pesquisar ' + opcao_tipo)
 
 def printar_nao_encontrou_cpf(cpf):
-    print('\nCPF ' + cpf + ' não consta na lista dos cpf de clientes...\n')
+    print('\nCPF ' + cpf + ' não consta na lista dos cpf de clientes...')
 
 def printar_nao_encontrou_prod(prod):
-    print('\nProduto ' + prod + ' não consta na lista de produtos...\n')
+    print('\nProduto ' + prod + ' não consta na lista de produtos...')
 
 def printar_dict(dict, lista_tipo):
     if len(dict) == 0:
@@ -40,9 +40,9 @@ def printar_dict(dict, lista_tipo):
 
     elif lista_tipo == 'produtos':
         for prod in dict.keys():
-            print()
             print('produto: ' + prod)
-            print('preço: ' + dict[prod]['preco'])
+            print('quantidade: ' + str(dict[prod]['qntd']))
+            print('preço: ' + '{:.2f}'.format(dict[prod]['preco']))
             print('descrição : ' + dict[prod]['desc'])
 
 def pegar_opcao():
@@ -54,4 +54,4 @@ def pegar_opcao():
         return opcao
 
 def printar_item_adicionado(item_tipo, item_nome):
-    print(item_tipo + ' "' + item_nome + '" adicionado!')
+    print('\n' + item_tipo + ' "' + item_nome + '" adicionado!')

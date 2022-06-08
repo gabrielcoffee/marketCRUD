@@ -35,7 +35,6 @@ def adicionar(cpf):
     num = input('Número de telefone do cliente: ')
     end = input('Endereço do cliente: ')
 
-    print(cpf)
     clientes[cpf] = {
         'nome': nome,
         'num' : num,

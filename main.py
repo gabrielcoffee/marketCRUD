@@ -25,6 +25,7 @@ def iniciar():
 
 def registrar_bd():
     print('Salvando registros...')
+    print('Fechando programa...')
 
 if __name__ == '__main__':
     interacoes.printar_inicio()

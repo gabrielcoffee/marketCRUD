@@ -59,20 +59,20 @@ def editar(produto):
 
         while True:
             print('===== VALORES ATUAIS =====')
-            print('1. Quantidade: ' + qntd)
-            print('2. Preço: ' + preco)
+            print('1. Quantidade: ' + str(qntd))
+            print('2. Preço: ' + '{:.2f}'.format(preco))
             print('3. Descrição: ' + desc)
             print('4. CANCELAR EDIÇÃO')
 
             opcao = input('\nO que deseja editar? ')
 
-            if opcao == 1:
+            if opcao == '1':
                 qntd = int(input('Nova quantidade'))
-            elif opcao == 2:
+            elif opcao == '2':
                 preco = float(input('Novo preço: '))
-            elif opcao == 3:
+            elif opcao == '3':
                 desc = input('Nova descrição: ')
-            elif opcao == 4:
+            elif opcao == '4':
                 break
 
             # atualiza cliente
