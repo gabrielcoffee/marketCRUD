@@ -1,12 +1,10 @@
 import sys
 import interacoes
-import database as bd
+import clientes
+import produtos
+import pedidos
 
 def iniciar():
-    import clientes
-    import produtos
-    import pedidos
-
     while True:
         interacoes.printar_menu()
 
@@ -15,16 +13,10 @@ def iniciar():
         if opcao == '1':
             clientes.start()
         elif opcao == '2':
-            interacoes.printar_dict(bd.clientes, 'clientes')
-        elif opcao == '3':
             produtos.start()
-        elif opcao == '4':
-            interacoes.printar_dict(bd.produtos, 'produtos')
-        elif opcao == '5':
+        elif opcao == '3':
             pedidos.start()
-        elif opcao == '6':
-            interacoes.printar_dict(bd.pedidos, 'pedidos')
-        elif opcao == '7':
+        elif opcao == '4':
             registrar_bd()
             sys.exit()
 

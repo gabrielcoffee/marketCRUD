@@ -2,23 +2,28 @@ from database import clientes
 import interacoes
 
 def start():
-    interacoes.printar_opcoes('clientes')
+    interacoes.printar_opcoes('cliente')
 
     opcao = interacoes.pegar_opcao()
     if opcao is None:
         return
+    elif opcao == '5':
+        interacoes.printar_lista_clientes()
+        return
 
     cpf = input('CPF do cliente: ')
 
-    if validar_cpf(cpf):
-        if opcao == '1':
-            adicionar(cpf)
-        elif opcao == '2':
-            remover(cpf)
-        elif opcao == '3':
-            editar(cpf)
-        elif opcao == '4':
-            pesquisar(cpf)
+    if validar_cpf(cpf) is not True:
+        return
+
+    if opcao == '1':
+        adicionar(cpf)
+    elif opcao == '2':
+        remover(cpf)
+    elif opcao == '3':
+        editar(cpf)
+    elif opcao == '4':
+        pesquisar(cpf)
 
 def adicionar(cpf):
         
@@ -97,7 +102,7 @@ def pesquisar(cpf):
 
 def validar_cpf(cpf):
     if len(cpf) != 11:
-        print('\nCPF inválido\n')
+        print('\nCPF inválido')
         return False
 
     digitos = []
@@ -125,7 +130,6 @@ def validar_cpf(cpf):
         verif2 = 0
 
     if verif1 == digitos[9] and verif2 == digitos[10]:
-        print('\nCPF Válido\n')
         return True
     else:
         print('\nCPF Inválido')

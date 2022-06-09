@@ -2,10 +2,13 @@ from database import produtos
 import interacoes
 
 def start():
-    interacoes.printar_opcoes('produtos')
+    interacoes.printar_opcoes('produto')
 
     opcao = interacoes.pegar_opcao()
     if opcao is None:
+        return
+    elif opcao == '5':
+        interacoes.printar_lista_produtos()
         return
 
     produto = input('Nome do produto: ')
