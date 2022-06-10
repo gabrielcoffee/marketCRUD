@@ -95,7 +95,7 @@ def confirmar_pedido():
     interacoes.printar_lista_pedidos()
 
     while True:
-        ID = int(input('ID do pedido à confirmar '))
+        ID = int(input('ID do pedido à confirmar: '))
         pedido = None
 
         try:

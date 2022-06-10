@@ -94,7 +94,7 @@ def printar_item_adicionado(item_tipo, item_nome):
 
 def printar_cliente(cpf):
     print('cliente: ' + bd.clientes[cpf]['nome'])
-    print('cpf: ' + cpf)
+    print('cpf: ' + mask_cpf(cpf))
     print('número: ' + bd.clientes[cpf]['num'])
     print('endereço: ' + bd.clientes[cpf]['end'])
 
@@ -109,6 +109,9 @@ def printar_produto(prod):
 def printar_pedido(ID):
     pedido = bd.pedidos[ID]
     print('Número ID do pedido: ' + str(ID))
-    print('CPF do cliente: ' + pedido['cpf'])
+    print('CPF do cliente: ' + mask_cpf(pedido['cpf']))
     print('Produto(s): ' + str(pedido['qntd']) + ' ' +  pedido['produto'])
     print('Custo: ' + '{:.2f}'.format(pedido['custo']))
+
+def mask_cpf(cpf):
+    return cpf[0:3] + '.' + cpf[3:6] + '.' + cpf[6:9] + '-' + cpf[9:11]

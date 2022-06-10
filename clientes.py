@@ -1,4 +1,4 @@
-from database import clientes
+import database as bd
 import interacoes
 
 def start():
@@ -28,7 +28,7 @@ def start():
 def adicionar(cpf):
         
     # se cpf ja estiver no dicionario...
-    if cpf in clientes.keys():
+    if cpf in bd.clientes.keys():
         opcao = input('Esse cliente ja esta cadastrado, deseja edita-lo (s/n): ')
         if opcao == 's':
             editar(cpf)
@@ -41,28 +41,28 @@ def adicionar(cpf):
     num = input('Número de telefone do cliente: ')
     end = input('Endereço do cliente: ')
 
-    clientes[cpf] = {
+    bd.clientes[cpf] = {
         'nome': nome,
         'num' : num,
         'end' : end
     }
 
-    interacoes.printar_item_adicionado('Cliente', nome + ' de CPF: ' + cpf)
+    interacoes.printar_item_adicionado('Cliente', nome + ' de CPF: ' + interacoes.mask_cpf(cpf))
 
 def remover(cpf):
-    if cpf not in clientes.keys():
+    if cpf not in bd.clientes.keys():
         interacoes.printar_nao_encontrou_cpf(cpf)
     else:
-        clientes.pop(cpf)
+        bd.clientes.pop(cpf)
 
 def editar(cpf):
-    if cpf not in clientes.keys():
+    if cpf not in bd.clientes.keys():
         interacoes.printar_nao_encontrou_cpf(cpf)
     else:
         # pega valores atuais
-        nome = clientes[cpf]['nome']
-        num  = clientes[cpf]['num']
-        end  = clientes[cpf]['end']
+        nome = bd.clientes[cpf]['nome']
+        num  = bd.clientes[cpf]['num']
+        end  = bd.clientes[cpf]['end']
 
         while True:
             print('===== VALORES ATUAIS =====')
@@ -83,7 +83,7 @@ def editar(cpf):
                 break
 
             # atualiza cliente
-            clientes[cpf] = { 'nome': nome, 'num' : num, 'end' : end }
+            bd.clientes[cpf] = { 'nome': nome, 'num' : num, 'end' : end }
 
             opcao = input('Deseja continuar editando (s/n)? ')
             if opcao == 'n':
@@ -92,10 +92,10 @@ def editar(cpf):
                 continue
 
 def pesquisar(cpf):
-    if cpf not in clientes.keys():
+    if cpf not in bd.clientes.keys():
         interacoes.printar_nao_encontrou_cpf(cpf)
     else:
-        cliente = clientes[cpf]
+        cliente = bd.clientes[cpf]
         print('\nNome: ' + cliente['nome'])
         print('Número: ' + cliente['num'])
         print('Endereço: ' + cliente['end'])
