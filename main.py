@@ -43,8 +43,10 @@ def resgatar_bd():
     with open('database.json', 'r') as json_file:
 
         # tenta carregar os dados do arquivo sem dar erro ( try, except )
-        try: dados = json.load(json_file)
-        except: return
+        try:
+            dados = json.load(json_file)
+        except:
+            return
 
         if dados is not None:
             bd.clientes = dados['clientes']

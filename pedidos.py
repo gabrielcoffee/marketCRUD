@@ -110,6 +110,7 @@ def confirmar_pedido():
     opcao = input('Deseja confirmar o pedido ' + str(ID) + ' (s/n)? ')
 
     if opcao == 's':
+        print('\nPedido ' + str(ID) + ' confirmado!')
         bd.produtos[pedido['produto']]['qntd'] -= pedido['qntd']
         bd.pedidos.pop(ID)
     else:

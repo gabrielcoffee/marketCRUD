@@ -1,4 +1,4 @@
-from database import produtos
+import database as bd
 import interacoes
 
 def start():
@@ -24,7 +24,7 @@ def start():
 
 def adicionar(produto):
     # se produto ja estiver no dicionario...
-    if produto in produtos.keys():
+    if produto in bd.produtos.keys():
         opcao = input('Esse produto ja esta cadastrado, deseja edita-lo (s/n): ')
         if opcao == 's':
             editar(produto)
@@ -37,7 +37,7 @@ def adicionar(produto):
     preco = float(input('Preço do produto: '))
     desc = input('Descrição do produto: ')
 
-    produtos[produto] = {
+    bd.produtos[produto] = {
         'qntd' : qntd,
         'preco' : preco,
         'desc' : desc
@@ -46,20 +46,20 @@ def adicionar(produto):
     interacoes.printar_item_adicionado('Produto', produto)
 
 def remover(produto):
-    if produto not in produtos.keys():
+    if produto not in bd.produtos.keys():
         interacoes.printar_nao_encontrou_prod(produto)
     else:
-        produtos.pop(produto)
+        bd.produtos.pop(produto)
 
 def editar(produto):
-    if produto not in produtos.keys():
+    if produto not in bd.produtos.keys():
         interacoes.printar_nao_encontrou_prod(produto)
     else:
         # pega valores atuais
         nome = produto
-        qntd = produtos[produto]['qntd']
-        preco = produtos[produto]['preco']
-        desc = produtos[produto]['desc']
+        qntd = bd.produtos[produto]['qntd']
+        preco = bd.produtos[produto]['preco']
+        desc = bd.produtos[produto]['desc']
 
         while True:
             print('===== VALORES ATUAIS =====')
@@ -84,10 +84,10 @@ def editar(produto):
 
             # mudou nome do produto
             if nome != produto:
-                produtos.pop(produto)
+                bd.produtos.pop(produto)
 
             # atualiza cliente
-            produtos[nome] = {
+            bd.produtos[nome] = {
                 'qntd': qntd,
                 'preco' : preco,
                 'desc' : desc
@@ -101,10 +101,10 @@ def editar(produto):
                 continue
 
 def pesquisar(prod):
-    if prod not in produtos.keys():
+    if prod not in bd.produtos.keys():
         interacoes.printar_nao_encontrou_prod(prod)
     else:
-        produto = produtos[prod]
+        produto = bd.produtos[prod]
         print('\nProduto: ' + produto)
         print('Quantidade: ' + produto['qntd'])
         print('Preço: ' + produto['preco'])
