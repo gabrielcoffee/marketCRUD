@@ -4,13 +4,16 @@ import interacoes
 def start():
     interacoes.printar_opcoes('produto')
 
-    opcao = interacoes.pegar_opcao()
-    if opcao is None:
+    opcao = input('Opção: \n')
+    if opcao != '1' and opcao != '2' and opcao != '3' and opcao != '4' and opcao != '5':
+        print('Opção inválida, voltando ao menu...')
         return
-    elif opcao == '5':
+
+    if opcao == '5':
         interacoes.printar_lista_produtos()
         return
 
+    interacoes.printar_acao(opcao, 'produto')
     produto = input('Nome do produto: ')
 
     if opcao == '1':
@@ -94,18 +97,14 @@ def editar(produto):
             }
 
             opcao = input('Deseja continuar editando (s/n)? ')
-            if opcao == 'n':
-                break
-            elif opcao == 's':
+            if opcao == 's':
                 produto = nome
                 continue
+            else:
+                break
 
 def pesquisar(prod):
     if prod not in bd.produtos.keys():
         interacoes.printar_nao_encontrou_prod(prod)
     else:
-        produto = bd.produtos[prod]
-        print('\nProduto: ' + produto)
-        print('Quantidade: ' + produto['qntd'])
-        print('Preço: ' + produto['preco'])
-        print('Descrição: ' + produto['desc'])
+        interacoes.printar_produto(prod)

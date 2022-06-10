@@ -5,12 +5,15 @@ def start():
     interacoes.printar_opcoes('cliente')
 
     opcao = interacoes.pegar_opcao()
-    if opcao is None:
+    if opcao != '1' and opcao != '2' and opcao != '3' and opcao != '4' and opcao != '5':
+        print('Opção inválida, voltando ao menu...')
         return
-    elif opcao == '5':
+
+    if opcao == '5':
         interacoes.printar_lista_clientes()
         return
 
+    interacoes.printar_acao(opcao, 'cliente')
     cpf = input('CPF do cliente: ')
 
     if validar_cpf(cpf) is not True:
@@ -36,18 +39,26 @@ def adicionar(cpf):
         else:
             return
 
-    # se cpf não estiver no dicionario...
+    # pegar dados do cliente
     nome = input('Nome do cliente: ')
-    num = input('Número de telefone do cliente: ')
-    end = input('Endereço do cliente: ')
+    num = input('Número de telefone: ')
+    while True:
+        email = input('Email: ')
+        if validar_email(email):
+            break
+        else:
+            print('Email inválido tente novamente...\n')
+            continue
+    end = input('Endereço: ')
 
     bd.clientes[cpf] = {
         'nome': nome,
         'num' : num,
+        'email' : email,
         'end' : end
     }
 
-    interacoes.printar_item_adicionado('Cliente', nome + ' de CPF: ' + interacoes.mask_cpf(cpf))
+    interacoes.printar_item_adicionado('Cliente ', nome + ' de CPF: ' + interacoes.mask_cpf(cpf))
 
 def remover(cpf):
     if cpf not in bd.clientes.keys():
@@ -62,14 +73,16 @@ def editar(cpf):
         # pega valores atuais
         nome = bd.clientes[cpf]['nome']
         num  = bd.clientes[cpf]['num']
+        email = bd.clientes[cpf]['email']
         end  = bd.clientes[cpf]['end']
 
         while True:
             print('===== VALORES ATUAIS =====')
             print('1. NOME: ' + nome)
             print('2. NUMERO: ' + num)
-            print('3. ENDEREÇO: ' + end)
-            print('4. CANCELAR EDIÇÃO')
+            print('3. EMAIL: ' + email)
+            print('4. ENDEREÇO: ' + end)
+            print('5. CANCELAR EDIÇÃO')
 
             opcao = input('\nO que deseja editar? ')
 
@@ -78,27 +91,26 @@ def editar(cpf):
             elif opcao == '2':
                 num = input('Novo número de telefone: ')
             elif opcao == '3':
-                end = input('Novo endereço: ')
+                email = input('Novo email: ')
             elif opcao == '4':
+                end = input('Novo endereço: ')
+            elif opcao == '5':
                 break
 
             # atualiza cliente
-            bd.clientes[cpf] = { 'nome': nome, 'num' : num, 'end' : end }
+            bd.clientes[cpf] = { 'nome': nome, 'num' : num, 'email' : email, 'end' : end }
 
             opcao = input('Deseja continuar editando (s/n)? ')
-            if opcao == 'n':
-                break
-            elif opcao == 's':
+            if opcao == 's':
                 continue
+            else:
+                break
 
 def pesquisar(cpf):
     if cpf not in bd.clientes.keys():
         interacoes.printar_nao_encontrou_cpf(cpf)
     else:
-        cliente = bd.clientes[cpf]
-        print('\nNome: ' + cliente['nome'])
-        print('Número: ' + cliente['num'])
-        print('Endereço: ' + cliente['end'])
+        interacoes.printar_cliente(cpf)
 
 def validar_cpf(cpf):
     if len(cpf) != 11:
@@ -133,4 +145,17 @@ def validar_cpf(cpf):
         return True
     else:
         print('\nCPF Inválido')
+        return False
+
+# se possuir um arroba e não for o primeiro caractere é válido.
+def validar_email(email):
+    arroba_contar = 0
+
+    for c in email:
+        if c == '@' and c != email[0:1]:
+            arroba_contar += 1
+
+    if arroba_contar == 1:
+        return True
+    else:
         return False
