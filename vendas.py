@@ -4,11 +4,10 @@ import interacoes
 def start():
     interacoes.printar_opcoes_compras()
 
-    opcao = input('Opção: ')
+    opcao = input(interacoes.BLUE + 'Opção: ' + interacoes.RESET)
     print()
 
     if opcao != '1' and opcao != '2':
-        print('Opção inválida, voltando ao menu...')
         return
 
     if opcao == '1':
@@ -28,12 +27,12 @@ def gerar_compra():
 
     interacoes.printar_lista_produtos()
 
-    produtos_qntd = {}
+    produtos_qntd_preco = {}
     while True:
         pular_prod = False
         while True:
 
-            print('(Enter para não adicionar mais produtos)')
+            interacoes.printar_cor('(Enter para não adicionar mais produtos)', interacoes.RED)
             produto = input('Insira o nome do produto: ')
             if produto == '':
                 pular_prod = True
@@ -46,13 +45,13 @@ def gerar_compra():
 
             elif bd.produtos[produto]['qntd'] == 0:
                 pular_prod = True
-                print('Produto esgotado\n')
+                interacoes.printar_cor('Produto esgotado\n', interacoes.RED)
                 break
             else:
                 break
 
         if pular_prod == False:
-            print('\nPRODUTO SELECIONADO: ')
+            interacoes.printar_cor('\nPRODUTO SELECIONADO: ', interacoes.GREEN)
             interacoes.printar_produto(produto)
             print()
 
@@ -62,15 +61,15 @@ def gerar_compra():
                 if 0 < qntd <= bd.produtos[produto]['qntd']:
                     break
                 else:
-                    print('Quantidade inválida, tente novamente')
+                    interacoes.printar_cor('Quantidade inválida, tente novamente', interacoes.RED)
                     continue
 
-            produtos_qntd[produto] = qntd
+            produtos_qntd_preco[produto] = {'preco': bd.produtos[produto]['preco'], 'qntd' : qntd}
             if qntd == 1:
-                print('Uma unidade do produto ' + produto + ' adicionada ao carrinho!')
+                interacoes.printar_cor('Uma unidade do produto ' + produto + ' adicionada ao carrinho!', interacoes.GREEN)
             else:
-                for prod in produtos_qntd.keys():
-                    bd.produtos[prod]['qntd'] -= produtos_qntd[prod]
+                for prod in produtos_qntd_preco.keys():
+                    bd.produtos[prod]['qntd'] -= produtos_qntd_preco[prod]['qntd']
                 print(str(qntd) + ' unidades do produto ' + produto + ' adicionadas ao carrinho!')
 
 
@@ -80,26 +79,27 @@ def gerar_compra():
         if opcao == 's':
             continue
         else:
-            if len(produtos_qntd) == 0:
+            if len(produtos_qntd_preco) == 0:
                 cancelar = True
-                print('Carrinho está vazio. Venda cancelada.')
+                interacoes.printar_cor('Carrinho está vazio. Venda cancelada.', interacoes.RED)
             break
 
     # FORA DO LOOP DE COMPRA
     if cancelar == True:
-        for prod in produtos_qntd.keys():
-            bd.produtos[prod]['qntd'] += produtos_qntd[prod]
+        for prod in produtos_qntd_preco.keys():
+            bd.produtos[prod]['qntd'] += produtos_qntd_preco[prod]['qntd']
         return
 
     print('PEDIDO:')
-    interacoes.printar_produtos_selecionados_e_total(produtos_qntd)
+    interacoes.printar_produtos_selecionados_e_total(produtos_qntd_preco)
+
     opcao = input('Deseja confirmar a venda (s/n)?')
     if opcao == 's':
         # adiciona a lista de compras
         bd.vendas.append({'cpf': cpf_cliente,
-                          'produtos_qntd': produtos_qntd
+                          'produtos_qntd_preco': produtos_qntd_preco
                           })
     else:
-        for prod in produtos_qntd.keys():
-            bd.produtos[prod]['qntd'] += produtos_qntd[prod]
-        print('Venda cancelada.')
+        for prod in produtos_qntd_preco.keys():
+            bd.produtos[prod]['qntd'] += produtos_qntd_preco[prod]['qntd']
+        interacoes.printar_cor('Venda cancelada.', interacoes.RED)

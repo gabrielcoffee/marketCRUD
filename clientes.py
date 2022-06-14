@@ -6,7 +6,6 @@ def start():
 
     opcao = interacoes.pegar_opcao()
     if opcao != '1' and opcao != '2' and opcao != '3' and opcao != '4' and opcao != '5':
-        print('Opção inválida, voltando ao menu...')
         return
 
     if opcao == '5':
@@ -64,7 +63,15 @@ def remover(cpf):
     if cpf not in bd.clientes.keys():
         interacoes.printar_nao_encontrou_cpf(cpf)
     else:
-        bd.clientes.pop(cpf)
+        interacoes.printar_cliente(cpf)
+        opcao = input('\nDeseja remover ' + bd.clientes[cpf]['nome'] + ' (s/n)? ')
+        if opcao == 's':
+            print('\nCliente removido com sucesso!')
+            bd.clientes.pop(cpf)
+        else:
+            print('Cliente não foi removido.')
+            return
+
 
 def editar(cpf):
     if cpf not in bd.clientes.keys():
@@ -77,12 +84,7 @@ def editar(cpf):
         end  = bd.clientes[cpf]['end']
 
         while True:
-            print('===== VALORES ATUAIS =====')
-            print('1. NOME: ' + nome)
-            print('2. NUMERO: ' + num)
-            print('3. EMAIL: ' + email)
-            print('4. ENDEREÇO: ' + end)
-            print('5. CANCELAR EDIÇÃO')
+            interacoes.printar_valores_atuais_clientes(nome, num, email, end)
 
             opcao = input('\nO que deseja editar? ')
 

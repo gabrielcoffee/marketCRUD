@@ -4,9 +4,8 @@ import interacoes
 def start():
     interacoes.printar_opcoes('produto')
 
-    opcao = input('Opção: \n')
+    opcao =interacoes.pegar_opcao()
     if opcao != '1' and opcao != '2' and opcao != '3' and opcao != '4' and opcao != '5':
-        print('Opção inválida, voltando ao menu...')
         return
 
     if opcao == '5':
@@ -52,6 +51,7 @@ def remover(produto):
     if produto not in bd.produtos.keys():
         interacoes.printar_nao_encontrou_prod(produto)
     else:
+        print(interacoes.RED + 'Produto ' + produto + ' removido com sucesso!' + interacoes.RESET)
         bd.produtos.pop(produto)
 
 def editar(produto):
@@ -65,12 +65,7 @@ def editar(produto):
         desc = bd.produtos[produto]['desc']
 
         while True:
-            print('===== VALORES ATUAIS =====')
-            print('1. Nome: ' + produto)
-            print('2. Quantidade: ' + str(qntd))
-            print('3. Preço: ' + '{:.2f}'.format(preco))
-            print('4. Descrição: ' + desc)
-            print('5. CANCELAR EDIÇÃO')
+            interacoes.printar_valores_atuais_produtos(produto, qntd, preco, desc)
 
             opcao = input('\nO que deseja editar? ')
 

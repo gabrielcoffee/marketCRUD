@@ -1,1 +1,0 @@
-{"clientes": {"06188144183": {"nome": "Gabriel", "num": "999", "email": "gabs@gmail.com", "end": "casa do gabriel"}}, "produtos": {"Leite": {"qntd": 4, "preco": 5.5, "desc": "desc"}, "Pao": {"qntd": 11, "preco": 2.5, "desc": "paozinho quente"}}, "vendas": [{"cpf": "06188144183", "produtos_qntd": {"Leite": 10}}, {"cpf": "06188144183", "produtos_qntd": {"Leite": 3, "Pao": 4}}]}
