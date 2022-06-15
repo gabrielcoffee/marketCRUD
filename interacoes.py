@@ -12,31 +12,34 @@ def printar_cor(texto, color_code = RESET):
 
 # MENUS
 def printar_inicio():
-    print('========================')
+    printar_cor('========================', GREEN)
     printar_cor('Grupo: OS TRAVA PYTHON', BLUE)
     printar_cor('Alunos: ', GREEN)
     print('   Angelo Sequinel,\n   Lohan Berg,\n   Leonardo Cavalli,\n   Gabriel Fernandes.')
     printar_cor('Sistema para mercado', BLUE)
-    print('========================')
+    printar_cor('========================', GREEN)
 
 def printar_menu():
-    printar_cor('\n===== MENU =====', GREEN)
-    print('1. Clientes')
-    print('2. Produtos')
-    print('3. Compra e Vendas')
-    print('4. Fechar programa')
+    printar_cor('\n======= MENU =======', GREEN)
+    print_opcao(1, 'Clientes')
+    print_opcao(2, 'Produtos')
+    print_opcao(3, 'Compra e Venda')
+    print_opcao(4, 'Fechar programa')
+
+def print_opcao(num, string):
+    print(BLUE + '['+str(num)+'] ' + RESET + string)
 
 def printar_opcoes(opcao_tipo):
-    print('\n1. Adicionar ' + opcao_tipo)
-    print('2. Remover ' + opcao_tipo)
-    print('3. Editar ' + opcao_tipo)
-    print('4. Pesquisar ' + opcao_tipo)
-    print('5. Lista de ' + opcao_tipo + 's')
+    print_opcao(1, 'Adicionar ' + opcao_tipo)
+    print_opcao(2, 'Remover ' + opcao_tipo)
+    print_opcao(3, 'Editar ' + opcao_tipo)
+    print_opcao(4, 'Pesquisar ' + opcao_tipo)
+    print_opcao(5, 'Lista de ' + opcao_tipo + 's')
     printar_cor('Enter: Voltar ao menu\n', RED)
 
 def printar_opcoes_compras():
-    print('\n1. Gerar compra')
-    print('2. Listar vendas')
+    print_opcao(1, 'Gerar compra')
+    print_opcao(2, 'Listar vendas')
     printar_cor('Enter: Voltar ao menu\n', RED)
 
 def printar_acao(opcao, opcao_tipo):
@@ -59,76 +62,77 @@ def printar_nao_encontrou_prod(prod):
 
 # VALORES ATUAIS
 def printar_valores_atuais_clientes(nome, num, email, end):
-    print('===== VALORES ATUAIS =====')
-    print('1. NOME: ' + nome)
-    print('2. NUMERO: ' + num)
-    print('3. EMAIL: ' + email)
-    print('4. ENDEREÇO: ' + end)
-    printar_cor('5. CANCELAR EDIÇÃO', RED)
+    printar_cor('====== VALORES ATUAIS ======', GREEN)
+    print_opcao(1, 'NOME: ' + nome)
+    print_opcao(2, 'NUMERO: ' + num)
+    print_opcao(3, 'EMAIL: ' + email)
+    print_opcao(4, 'ENDEREÇO: ' + end)
+    printar_cor('[5] CANCELAR EDIÇÃO', RED)
 
 def printar_valores_atuais_produtos(produto, qntd, preco, desc):
-    print('===== VALORES ATUAIS =====')
-    print('1. Nome: ' + produto)
-    print('2. Quantidade: ' + str(qntd))
-    print('3. Preço: ' + '{:.2f}'.format(preco))
-    print('4. Descrição: ' + desc)
-    print('5. CANCELAR EDIÇÃO')
+    printar_cor('====== VALORES ATUAIS ======', GREEN)
+    print_opcao(1, 'Nome: ' + produto)
+    print_opcao(2, 'Quantidade: ' + str(qntd))
+    print_opcao(3, 'Preço: ' + '{:.2f}'.format(preco))
+    print_opcao(4, 'Descrição: ' + desc)
+    printar_cor('[5] CANCELAR EDIÇÃO', RED)
 
 
 # LISTAS
 def printar_lista_produtos():
     if len(bd.produtos) == 0:
-        print('\nLista de produtos está vazia')
+        printar_cor('\nLista de produtos está vazia', RED)
         return
 
-    print('LISTA DE PRODUTOS:\n')
+    printar_cor('LISTA DE PRODUTOS:', GREEN)
     # printa cada produto
     for prod in bd.produtos.keys():
         printar_produto(prod)
-        print()
+
 
 def printar_lista_clientes():
     if len(bd.clientes) == 0:
-        print('\nLista de clientes está vazia')
+        printar_cor('\nLista de clientes está vazia', RED)
         return
 
-    print('LISTA DE CLIENTES:\n')
+    printar_cor('LISTA DE CLIENTES:', GREEN)
     # printa cada cliente
     for cpf in bd.clientes.keys():
         printar_cliente(cpf)
-        print()
 
 def printar_lista_vendas():
     if len(bd.vendas) == 0:
-        print('\nLista de vendas está vazia')
+        printar_cor('\nLista de vendas está vazia', RED)
         return
 
-    print('LISTA DE VENDAS:\n')
+    printar_cor('LISTA DE VENDAS:\n', GREEN)
     # printa cada cliente
     for i in range(len(bd.vendas)):
         printar_venda(i)
-        print()
 
 
 # PRINT DE CLIENTE, PRODUTO E PEDIDO
 def printar_cliente(cpf):
-    print('Cliente: ' + bd.clientes[cpf]['nome'])
+    print()
+    printar_cor('Cliente: ' + bd.clientes[cpf]['nome'], BLUE)
     print('Cpf: ' + mask_cpf(cpf))
     print('Número: ' + bd.clientes[cpf]['num'])
     print('Email: ' + bd.clientes[cpf]['email'])
     print('Endereço: ' + bd.clientes[cpf]['end'])
 
 def printar_produto(prod):
-    print('Produto: ' + prod)
+    print()
+    printar_cor('Produto: ' + prod, BLUE)
     print('Quantidade em estoque: ' + str(bd.produtos[prod]['qntd']))
     print('Preço: R$ ' + '{:.2f}'.format(bd.produtos[prod]['preco']))
     print('Descrição : ' + bd.produtos[prod]['desc'])
 
 def printar_venda(ID):
+    print()
     venda = bd.vendas[ID]
-    print('===== ID: ' + str(ID) + ' =====')
+    printar_cor('============= ID: ' + str(ID) + ' =============', BLUE)
     print('CPF do cliente: ' + mask_cpf(venda['cpf']))
-    print('PRODUTOS SELECIONADOS:')
+    printar_cor('< PRODUTOS SELECIONADOS >', GREEN)
     printar_produtos_selecionados_e_total(venda['produtos_qntd_preco'])
 
 def printar_produtos_selecionados_e_total(produtos_qntd_preco):
@@ -140,17 +144,19 @@ def printar_produtos_selecionados_e_total(produtos_qntd_preco):
         preco = float(produtos_qntd_preco[prod]['preco'])
         total_prod = preco * qntd
 
-        print(qntd, prod,'por', 'R$ {:.2f}'.format(preco), '=> R$', '{:.2f}'.format(total_prod))
+        print(qntd, prod,'por', '{:.2f' '}'.format(preco), '-->', text_preco(total_prod))
         total += total_prod
 
-    print('\nCusto total: ' + '{:.2f}'.format(total))
+    print('CUSTO TOTAL --> ' + text_preco(total))
 
+def text_preco(preco):
+    return GREEN + 'R$ ' + '{:.2f}'.format(preco) + RESET
 
 def mask_cpf(cpf):
     return cpf[0:3] + '.' + cpf[3:6] + '.' + cpf[6:9] + '-' + cpf[9:11]
 
 def pegar_opcao():
-    opcao = input(BLUE + 'Opção: ' + RESET)
+    opcao = input(RED + '--> ' + RESET)
     print()
     if opcao != '1' and opcao != '2' and opcao != '3' and opcao != '4' and opcao != '5':
         printar_cor('Voltando ao menu...', RED)

@@ -10,7 +10,7 @@ def iniciar():
     while True:
         interacoes.printar_menu()
 
-        opcao = input(interacoes.BLUE + '\nOpção: ' + interacoes.RESET)
+        opcao = input(interacoes.RED + '\n--> ' + interacoes.RESET)
 
         if opcao == '1':
             clientes.start()
